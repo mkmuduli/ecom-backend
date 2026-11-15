@@ -1,0 +1,7 @@
+CREATE TABLE products (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    price NUMERIC(12, 2) NOT NULL,
+    stock INTEGER NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE
+);

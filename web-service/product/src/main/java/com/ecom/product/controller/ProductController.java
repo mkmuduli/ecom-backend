@@ -2,7 +2,12 @@ package com.ecom.product.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecom.product.dto.CreateProductRequest;
+import com.ecom.product.dto.ProductResponse;
 import com.ecom.product.entity.Product;
+import com.ecom.product.service.ProductService;
+
+import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,29 +23,36 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/v1/product")
 public class ProductController {
 
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     @GetMapping({ "", "/" })
-    public String getProduct() {
-        return "all products";
+    public List<ProductResponse> getProduct() {
+        return productService.getAll();
     }
 
     @GetMapping("/{id}")
-    public String getProductById(@PathVariable("id") Long id) {
-        return "Product " + id;
+    public ProductResponse getProductById(@PathVariable("id") Long id) {
+        return productService.getByProductId(id);
     }
 
     @PostMapping({ "", "/" })
-    public String createProduct(@Valid @RequestBody Product product) {
+    public String createProduct(@Valid @RequestBody CreateProductRequest product) {
         return "Product created";
     }
 
     @PutMapping("/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @RequestBody String entity) {
-        return entity;
+    public ProductResponse updateProduct(@PathVariable("id") Long id,
+            @Valid @RequestBody CreateProductRequest product) {
+        return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable("id") Long id) {
-        return "Product deleted";
+    public void deleteProduct(@PathVariable("id") Long id) {
+        productService.delete(id);
     }
 
 }
