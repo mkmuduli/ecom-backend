@@ -30,14 +30,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Enables development-time restart and LiveReload; optional and runtime-only. -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-
         <!-- Adds Spring MVC test support for controller and web-layer tests. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
