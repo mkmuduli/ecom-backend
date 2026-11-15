@@ -40,8 +40,8 @@ public class ProductController {
     }
 
     @PostMapping({ "", "/" })
-    public String createProduct(@Valid @RequestBody CreateProductRequest product) {
-        return "Product created";
+    public ProductResponse createProduct(@Valid @RequestBody CreateProductRequest product) {
+        return productService.create(product);
     }
 
     @PutMapping("/{id}")
