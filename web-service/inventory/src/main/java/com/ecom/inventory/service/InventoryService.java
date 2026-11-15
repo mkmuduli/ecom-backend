@@ -17,6 +17,20 @@ public class InventoryService {
     }
 
     @Transactional
+    public Inventory createInventory(Long productId, Integer availableQuantity) {
+        if (productId == null || availableQuantity == null || availableQuantity < 0) {
+            throw new IllegalArgumentException("productId and a non-negative availableQuantity are required");
+        }
+        return inventoryRepository.save(new Inventory(productId, availableQuantity));
+    }
+
+    @Transactional(readOnly = true)
+    public Inventory getInventory(Long productId) {
+        return inventoryRepository.findByProductId(productId)
+                .orElseThrow(() -> new InventoryNotFoundException(productId));
+    }
+
+    @Transactional
     public void reserveStock(Long productId, int quantity) {
 
         Inventory inventory = inventoryRepository
