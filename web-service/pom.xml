@@ -19,6 +19,8 @@
         <module>product</module>
         <module>order</module>
         <module>inventory</module>
+        <module>payment</module>
+
     </modules>
 
 </project>
