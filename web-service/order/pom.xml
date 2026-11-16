@@ -16,6 +16,17 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.ecom</groupId>
+            <artifactId>ecom-grpc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <version>${grpc.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <!-- ecom spring-boot-starter -->
         <dependency>
             <groupId>com.ecom</groupId>

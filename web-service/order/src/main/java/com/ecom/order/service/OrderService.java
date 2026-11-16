@@ -7,32 +7,42 @@ import com.ecom.order.entity.OrderStatus;
 import com.ecom.events.OrderCreatedEvent;
 import com.ecom.order.messaging.OrderEventProducer;
 import com.ecom.order.repository.OrderRepository;
+import com.ecom.order.grpc.ProductPriceClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderEventProducer orderEventProducer;
+    private final ProductPriceClient productPriceClient;
 
     public OrderService(
             OrderRepository orderRepository,
-            OrderEventProducer orderEventProducer) {
+            OrderEventProducer orderEventProducer,
+            ProductPriceClient productPriceClient) {
 
         this.orderRepository = orderRepository;
         this.orderEventProducer = orderEventProducer;
+        this.productPriceClient = productPriceClient;
     }
 
     @Transactional
     public OrderResponse createOrder(CreateOrderRequest request) {
 
+        BigDecimal unitPrice = productPriceClient.getPrice(request.productId());
+        BigDecimal amount = unitPrice.multiply(BigDecimal.valueOf(request.quantity()))
+                .setScale(2, RoundingMode.HALF_UP);
+
         Order order = new Order(
                 request.productId(),
                 request.quantity(),
-                request.amount());
+                amount);
 
         Order savedOrder = orderRepository.save(order);
 

@@ -29,6 +29,9 @@ public class Product {
     @Column(nullable = false)
     private Boolean active = true;
 
+    protected Product() {
+    }
+
     public Product(String name, BigDecimal price, Integer stock) {
 
         this.price = price;

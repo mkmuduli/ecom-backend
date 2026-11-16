@@ -18,6 +18,7 @@
 
     <modules>
         <module>ecom-common</module>
+        <module>ecom-grpc</module>
         <module>ecom-events</module>
         <module>ecom-kafka</module>
         <!-- <module>ecom-autoconfigure</module> -->

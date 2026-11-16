@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ecom.product.v1;
+
+option java_package = "com.ecom.grpc.product.v1";
+option java_multiple_files = true;
+
+service ProductCatalog {
+  rpc GetProductPrice (GetProductPriceRequest) returns (GetProductPriceResponse);
+}
+
+message GetProductPriceRequest {
+  int64 product_id = 1;
+}
+
+message GetProductPriceResponse {
+  // Decimal string avoids floating-point rounding for currency values.
+  string price = 1;
+}
