@@ -10,6 +10,8 @@ import com.ecom.order.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class OrderService {
 
@@ -35,6 +37,7 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         OrderCreatedEvent event = new OrderCreatedEvent(
+                UUID.randomUUID().toString(),
                 savedOrder.getId(),
                 savedOrder.getProductId(),
                 savedOrder.getQuantity(),

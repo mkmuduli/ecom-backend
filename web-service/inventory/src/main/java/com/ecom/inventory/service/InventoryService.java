@@ -4,9 +4,11 @@ import com.ecom.inventory.exception.InsufficientStockException;
 import com.ecom.inventory.exception.InventoryNotFoundException;
 import com.ecom.inventory.messaging.InventoryEventProducer;
 import com.ecom.inventory.entity.Inventory;
+import com.ecom.inventory.entity.ProcessedEvent;
 import com.ecom.events.InventoryFailedEvent;
 import com.ecom.events.InventoryReservedEvent;
 import com.ecom.inventory.repository.InventoryRepository;
+import com.ecom.inventory.repository.ProcessedEventRepository;
 
 import java.math.BigDecimal;
 
@@ -18,10 +20,15 @@ public class InventoryService {
 
         private final InventoryRepository inventoryRepository;
         private final InventoryEventProducer inventoryEventProducer;
+        private final ProcessedEventRepository processedEventRepository;
 
-        public InventoryService(InventoryRepository inventoryRepository,
+        public InventoryService(
+                        InventoryRepository inventoryRepository,
+                        ProcessedEventRepository processedEventRepository,
                         InventoryEventProducer inventoryEventProducer) {
+
                 this.inventoryRepository = inventoryRepository;
+                this.processedEventRepository = processedEventRepository;
                 this.inventoryEventProducer = inventoryEventProducer;
         }
 
@@ -38,6 +45,27 @@ public class InventoryService {
         public Inventory getInventory(Long productId) {
                 return inventoryRepository.findByProductId(productId)
                                 .orElseThrow(() -> new InventoryNotFoundException(productId));
+        }
+
+        public void reserveStockFromEvent(
+                        String eventId,
+                        Long orderId,
+                        Long productId,
+                        int quantity,
+                        BigDecimal amount) {
+
+                // 1. Check idempotency
+                if (processedEventRepository.existsByEventId(eventId)) {
+                        System.out.println("Duplicate event ignored: " + eventId);
+                        return;
+                }
+
+                // 2. Call existing method
+                reserveStock(orderId, productId, quantity, amount);
+
+                // 3. Record event as processed
+                processedEventRepository.save(
+                                new ProcessedEvent(eventId));
         }
 
         @Transactional

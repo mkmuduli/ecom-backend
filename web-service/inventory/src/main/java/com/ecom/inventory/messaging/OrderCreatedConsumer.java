@@ -20,7 +20,8 @@ public class OrderCreatedConsumer {
         System.out.println(
                 "Received OrderCreatedEvent: " + event);
 
-        inventoryService.reserveStock(
+        inventoryService.reserveStockFromEvent(
+                event.eventId(),
                 event.orderId(),
                 event.productId(),
                 event.quantity(),
