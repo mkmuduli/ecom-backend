@@ -3,6 +3,7 @@ package com.ecom.order.service;
 import com.ecom.order.dto.CreateOrderRequest;
 import com.ecom.order.dto.OrderResponse;
 import com.ecom.order.entity.Order;
+import com.ecom.order.entity.OrderStatus;
 import com.ecom.order.event.OrderCreatedEvent;
 import com.ecom.order.messaging.OrderEventProducer;
 import com.ecom.order.repository.OrderRepository;
@@ -52,5 +53,27 @@ public class OrderService {
                         "Order not found: " + orderId));
 
         return OrderResponse.from(order);
+    }
+
+    @Transactional
+    public void markOrderCompleted(Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found: " + orderId));
+
+        order.setStatus(OrderStatus.COMPLETED);
+
+        orderRepository.save(order);
+    }
+
+    @Transactional
+    public void markOrderFailed(Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found: " + orderId));
+
+        order.setStatus(OrderStatus.FAILED);
+
+        orderRepository.save(order);
     }
 }

@@ -2,6 +2,7 @@ package com.ecom.payment.service;
 
 import com.ecom.payment.entity.Payment;
 import com.ecom.payment.entity.PaymentStatus;
+import com.ecom.payment.event.PaymentFailedEvent;
 import com.ecom.payment.event.PaymentSuccessEvent;
 import com.ecom.payment.messaging.PaymentEventProducer;
 import com.ecom.payment.repository.PaymentRepository;
@@ -26,9 +27,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public Payment processPayment(
-            Long orderId,
-            BigDecimal amount) {
+    public Payment processPayment(Long orderId, BigDecimal amount) {
 
         var existing = paymentRepository.findByOrderId(orderId);
 
@@ -36,9 +35,22 @@ public class PaymentService {
             return existing.get();
         }
 
-        Payment payment = new Payment(
-                orderId,
-                amount);
+        Payment payment = new Payment(orderId, amount);
+
+        // Temporary failure condition for Saga testing
+        if (amount.compareTo(new BigDecimal("999999.00")) == 0) {
+
+            payment.setStatus(PaymentStatus.FAILED);
+
+            Payment saved = paymentRepository.save(payment);
+
+            paymentEventProducer.publishFailed(
+                    new PaymentFailedEvent(
+                            orderId,
+                            "Payment declined for testing"));
+
+            return saved;
+        }
 
         payment.setStatus(PaymentStatus.SUCCESS);
 
