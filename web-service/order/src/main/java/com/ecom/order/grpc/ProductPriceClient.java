@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ProductPriceClient {
 
-    private static final long REQUEST_DEADLINE_SECONDS = 3;
-    private static final long RETRY_DELAY_MILLIS = 2_000;
+    private static final long REQUEST_DEADLINE_SECONDS = 2;
+    private static final long RETRY_DELAY_MILLIS = 5_000;
 
     private final ManagedChannel channel;
     private final ProductCatalogGrpc.ProductCatalogBlockingStub stub;
