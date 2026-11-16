@@ -1,7 +1,7 @@
 package com.ecom.inventory.messaging;
 
-import com.ecom.inventory.event.InventoryFailedEvent;
-import com.ecom.inventory.event.InventoryReservedEvent;
+import com.ecom.events.InventoryFailedEvent;
+import com.ecom.events.InventoryReservedEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 

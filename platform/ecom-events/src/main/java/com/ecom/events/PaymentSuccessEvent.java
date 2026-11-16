@@ -1,4 +1,4 @@
-package com.ecom.payment.event;
+package com.ecom.events;
 
 import java.math.BigDecimal;
 

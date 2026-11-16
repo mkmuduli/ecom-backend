@@ -1,6 +1,6 @@
-package com.ecom.inventory.event;
+package com.ecom.events;
 
-public record InventoryFailedEvent(
+public record OrderFailedEvent(
         Long orderId,
         Long productId,
         Integer quantity,

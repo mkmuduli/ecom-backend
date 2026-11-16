@@ -1,6 +1,6 @@
 package com.ecom.payment.messaging;
 
-import com.ecom.payment.event.InventoryReservedEvent;
+import com.ecom.events.InventoryReservedEvent;
 import com.ecom.payment.service.PaymentService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

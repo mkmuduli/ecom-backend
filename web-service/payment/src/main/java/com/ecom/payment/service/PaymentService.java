@@ -2,8 +2,8 @@ package com.ecom.payment.service;
 
 import com.ecom.payment.entity.Payment;
 import com.ecom.payment.entity.PaymentStatus;
-import com.ecom.payment.event.PaymentFailedEvent;
-import com.ecom.payment.event.PaymentSuccessEvent;
+import com.ecom.events.PaymentFailedEvent;
+import com.ecom.events.PaymentSuccessEvent;
 import com.ecom.payment.messaging.PaymentEventProducer;
 import com.ecom.payment.repository.PaymentRepository;
 

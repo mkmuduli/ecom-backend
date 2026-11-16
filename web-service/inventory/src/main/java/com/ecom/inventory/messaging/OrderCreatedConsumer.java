@@ -1,6 +1,6 @@
 package com.ecom.inventory.messaging;
 
-import com.ecom.inventory.event.OrderCreatedEvent;
+import com.ecom.events.OrderCreatedEvent;
 import com.ecom.inventory.service.InventoryService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

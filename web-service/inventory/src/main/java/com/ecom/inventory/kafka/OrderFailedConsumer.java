@@ -1,6 +1,6 @@
 package com.ecom.inventory.kafka;
 
-import com.ecom.inventory.event.OrderFailedEvent;
+import com.ecom.events.OrderFailedEvent;
 import com.ecom.inventory.service.InventoryService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class OrderFailedConsumer {
         this.inventoryService = inventoryService;
     }
 
-    @KafkaListener(topics = "order.failed", groupId = "inventory-service", containerFactory = "orderFailedKafkaListenerContainerFactory")
+    @KafkaListener(topics = "order.failed", groupId = "inventory-service")
     public void consume(OrderFailedEvent event) {
 
         System.out.println(

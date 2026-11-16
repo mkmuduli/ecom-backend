@@ -1,6 +1,6 @@
 package com.ecom.order.kafka;
 
-import com.ecom.order.event.PaymentSuccessEvent;
+import com.ecom.events.PaymentSuccessEvent;
 import com.ecom.order.service.OrderService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class PaymentSuccessConsumer {
         this.orderService = orderService;
     }
 
-    @KafkaListener(topics = "payment.success", groupId = "order-service", containerFactory = "paymentSuccessKafkaListenerContainerFactory")
+    @KafkaListener(topics = "payment.success", groupId = "order-service")
     public void consume(PaymentSuccessEvent event) {
 
         System.out.println(

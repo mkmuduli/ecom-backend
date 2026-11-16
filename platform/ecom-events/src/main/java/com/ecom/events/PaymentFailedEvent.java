@@ -1,4 +1,4 @@
-package com.ecom.order.event;
+package com.ecom.events;
 
 public record PaymentFailedEvent(
         Long orderId,

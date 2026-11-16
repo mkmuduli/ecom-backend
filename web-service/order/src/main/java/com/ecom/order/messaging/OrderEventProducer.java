@@ -1,7 +1,7 @@
 package com.ecom.order.messaging;
 
-import com.ecom.order.event.OrderCreatedEvent;
-import com.ecom.order.event.OrderFailedEvent;
+import com.ecom.events.OrderCreatedEvent;
+import com.ecom.events.OrderFailedEvent;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

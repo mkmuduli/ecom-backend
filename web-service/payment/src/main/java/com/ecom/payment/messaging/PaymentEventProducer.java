@@ -1,7 +1,7 @@
 package com.ecom.payment.messaging;
 
-import com.ecom.payment.event.PaymentFailedEvent;
-import com.ecom.payment.event.PaymentSuccessEvent;
+import com.ecom.events.PaymentFailedEvent;
+import com.ecom.events.PaymentSuccessEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 

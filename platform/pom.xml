@@ -18,6 +18,8 @@
 
     <modules>
         <module>ecom-common</module>
+        <module>ecom-events</module>
+        <module>ecom-kafka</module>
         <!-- <module>ecom-autoconfigure</module> -->
         <module>ecom-spring-boot-starter</module>
     </modules>

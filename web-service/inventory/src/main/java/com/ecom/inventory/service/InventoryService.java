@@ -4,8 +4,8 @@ import com.ecom.inventory.exception.InsufficientStockException;
 import com.ecom.inventory.exception.InventoryNotFoundException;
 import com.ecom.inventory.messaging.InventoryEventProducer;
 import com.ecom.inventory.entity.Inventory;
-import com.ecom.inventory.event.InventoryFailedEvent;
-import com.ecom.inventory.event.InventoryReservedEvent;
+import com.ecom.events.InventoryFailedEvent;
+import com.ecom.events.InventoryReservedEvent;
 import com.ecom.inventory.repository.InventoryRepository;
 
 import java.math.BigDecimal;

@@ -1,8 +1,8 @@
-package com.ecom.inventory.event;
+package com.ecom.events;
 
 import java.math.BigDecimal;
 
-public record OrderCreatedEvent(
+public record InventoryReservedEvent(
         Long orderId,
         Long productId,
         Integer quantity,
