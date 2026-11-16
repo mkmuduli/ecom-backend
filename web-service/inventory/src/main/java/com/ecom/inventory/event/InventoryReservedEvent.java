@@ -1,7 +1,10 @@
 package com.ecom.inventory.event;
 
+import java.math.BigDecimal;
+
 public record InventoryReservedEvent(
-        Long orderId,
-        Long productId,
-        Integer quantity) {
+                Long orderId,
+                Long productId,
+                Integer quantity,
+                BigDecimal amount) {
 }

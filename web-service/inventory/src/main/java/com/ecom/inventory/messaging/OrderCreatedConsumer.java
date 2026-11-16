@@ -23,6 +23,7 @@ public class OrderCreatedConsumer {
         inventoryService.reserveStock(
                 event.orderId(),
                 event.productId(),
-                event.quantity());
+                event.quantity(),
+                event.amount());
     }
 }

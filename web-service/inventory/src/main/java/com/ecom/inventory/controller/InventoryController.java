@@ -2,6 +2,9 @@ package com.ecom.inventory.controller;
 
 import com.ecom.inventory.service.InventoryService;
 import com.ecom.inventory.entity.Inventory;
+
+import java.math.BigDecimal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +33,10 @@ public class InventoryController {
     public ResponseEntity<Void> reserveStock(
             @PathVariable("productId") Long productId,
             @RequestParam("quantity") int quantity,
-            @RequestParam("orderId") Long orderId) {
+            @RequestParam("orderId") Long orderId,
+            @RequestParam("amount") BigDecimal amount) {
 
-        inventoryService.reserveStock(orderId, productId, quantity);
+        inventoryService.reserveStock(orderId, productId, quantity, amount);
 
         return ResponseEntity.ok().build();
     }

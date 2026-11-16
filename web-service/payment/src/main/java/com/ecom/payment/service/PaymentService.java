@@ -5,6 +5,9 @@ import com.ecom.payment.entity.PaymentStatus;
 import com.ecom.payment.event.PaymentSuccessEvent;
 import com.ecom.payment.messaging.PaymentEventProducer;
 import com.ecom.payment.repository.PaymentRepository;
+
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +28,7 @@ public class PaymentService {
     @Transactional
     public Payment processPayment(
             Long orderId,
-            java.math.BigDecimal amount) {
+            BigDecimal amount) {
 
         var existing = paymentRepository.findByOrderId(orderId);
 
@@ -33,7 +36,9 @@ public class PaymentService {
             return existing.get();
         }
 
-        Payment payment = new Payment(orderId, amount);
+        Payment payment = new Payment(
+                orderId,
+                amount);
 
         payment.setStatus(PaymentStatus.SUCCESS);
 

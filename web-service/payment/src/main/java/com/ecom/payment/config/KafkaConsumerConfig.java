@@ -6,24 +6,27 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableKafka
 public class KafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<String, InventoryReservedEvent> consumerFactory() {
 
-        JsonDeserializer<InventoryReservedEvent> deserializer = new JsonDeserializer<>(
+        JacksonJsonDeserializer<InventoryReservedEvent> deserializer = new JacksonJsonDeserializer<>(
                 InventoryReservedEvent.class);
 
         deserializer.addTrustedPackages(
                 "com.ecom.payment.event");
+        deserializer.setUseTypeHeaders(false);
 
         Map<String, Object> config = new HashMap<>();
 
@@ -41,7 +44,7 @@ public class KafkaConsumerConfig {
 
         config.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                JsonDeserializer.class);
+                JacksonJsonDeserializer.class);
 
         return new DefaultKafkaConsumerFactory<>(
                 config,
