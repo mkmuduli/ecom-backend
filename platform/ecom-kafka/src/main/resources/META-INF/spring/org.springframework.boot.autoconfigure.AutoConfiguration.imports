@@ -1,1 +1,2 @@
-com.ecom.platform.kafka.autoconfigure.EcomKafkaAutoConfiguration
+com.ecom.platform.kafka.autoconfigure.EcomKafkaProducerAutoConfiguration
+com.ecom.platform.kafka.autoconfigure.EcomKafkaConsumerAutoConfiguration
