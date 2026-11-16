@@ -22,6 +22,6 @@ public class PaymentController {
             @Valid @RequestBody PaymentRequest request) {
 
         return ResponseEntity.ok(
-                paymentService.processPayment(request));
+                paymentService.processPayment(request.orderId(), request.amount()));
     }
 }

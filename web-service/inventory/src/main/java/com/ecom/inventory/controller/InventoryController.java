@@ -29,9 +29,10 @@ public class InventoryController {
     @PostMapping("/{productId}/reserve")
     public ResponseEntity<Void> reserveStock(
             @PathVariable("productId") Long productId,
-            @RequestParam("quantity") int quantity) {
+            @RequestParam("quantity") int quantity,
+            @RequestParam("orderId") Long orderId) {
 
-        inventoryService.reserveStock(productId, quantity);
+        inventoryService.reserveStock(orderId, productId, quantity);
 
         return ResponseEntity.ok().build();
     }
@@ -46,5 +47,6 @@ public class InventoryController {
         return ResponseEntity.ok().build();
     }
 
-    public record InventoryRequest(Long productId, Integer availableQuantity) {}
+    public record InventoryRequest(Long productId, Integer availableQuantity) {
+    }
 }

@@ -21,6 +21,7 @@ public class OrderCreatedConsumer {
                 "Received OrderCreatedEvent: " + event);
 
         inventoryService.reserveStock(
+                event.orderId(),
                 event.productId(),
                 event.quantity());
     }

@@ -1,8 +1,9 @@
 package com.ecom.payment.service;
 
-import com.ecom.payment.dto.PaymentRequest;
 import com.ecom.payment.entity.Payment;
 import com.ecom.payment.entity.PaymentStatus;
+import com.ecom.payment.event.PaymentSuccessEvent;
+import com.ecom.payment.messaging.PaymentEventProducer;
 import com.ecom.payment.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,36 +12,39 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final PaymentEventProducer paymentEventProducer;
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(
+            PaymentRepository paymentRepository,
+            PaymentEventProducer paymentEventProducer) {
+
         this.paymentRepository = paymentRepository;
+        this.paymentEventProducer = paymentEventProducer;
     }
 
     @Transactional
-    public Payment processPayment(PaymentRequest request) {
+    public Payment processPayment(
+            Long orderId,
+            java.math.BigDecimal amount) {
 
-        /*
-         * Idempotency:
-         * If payment for this order already exists,
-         * don't create another payment.
-         */
-        var existing = paymentRepository
-                .findByOrderId(request.orderId());
+        var existing = paymentRepository.findByOrderId(orderId);
 
         if (existing.isPresent()) {
             return existing.get();
         }
 
-        Payment payment = new Payment(
-                request.orderId(),
-                request.amount());
+        Payment payment = new Payment(orderId, amount);
 
-        /*
-         * Simulate successful payment for now.
-         * Later we'll add failure scenarios.
-         */
         payment.setStatus(PaymentStatus.SUCCESS);
 
-        return paymentRepository.save(payment);
+        Payment saved = paymentRepository.save(payment);
+
+        paymentEventProducer.publishSuccess(
+                new PaymentSuccessEvent(
+                        saved.getOrderId(),
+                        saved.getId(),
+                        saved.getAmount()));
+
+        return saved;
     }
 }

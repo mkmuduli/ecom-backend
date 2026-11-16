@@ -2,8 +2,12 @@ package com.ecom.inventory.service;
 
 import com.ecom.inventory.exception.InsufficientStockException;
 import com.ecom.inventory.exception.InventoryNotFoundException;
+import com.ecom.inventory.messaging.InventoryEventProducer;
 import com.ecom.inventory.entity.Inventory;
+import com.ecom.inventory.event.InventoryFailedEvent;
+import com.ecom.inventory.event.InventoryReservedEvent;
 import com.ecom.inventory.repository.InventoryRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final InventoryEventProducer inventoryEventProducer;
 
-    public InventoryService(InventoryRepository inventoryRepository) {
+    public InventoryService(InventoryRepository inventoryRepository, InventoryEventProducer inventoryEventProducer) {
         this.inventoryRepository = inventoryRepository;
+        this.inventoryEventProducer = inventoryEventProducer;
     }
 
     @Transactional
@@ -31,13 +37,24 @@ public class InventoryService {
     }
 
     @Transactional
-    public void reserveStock(Long productId, int quantity) {
+    public void reserveStock(
+            Long orderId,
+            Long productId,
+            int quantity) {
 
         Inventory inventory = inventoryRepository
                 .findByProductId(productId)
                 .orElseThrow(() -> new InventoryNotFoundException(productId));
 
         if (inventory.getAvailableQuantity() < quantity) {
+
+            inventoryEventProducer.publishFailed(
+                    new InventoryFailedEvent(
+                            orderId,
+                            productId,
+                            quantity,
+                            "Insufficient stock"));
+
             throw new InsufficientStockException(
                     productId,
                     quantity);
@@ -50,6 +67,12 @@ public class InventoryService {
                 inventory.getReservedQuantity() + quantity);
 
         inventoryRepository.save(inventory);
+
+        inventoryEventProducer.publishReserved(
+                new InventoryReservedEvent(
+                        orderId,
+                        productId,
+                        quantity));
     }
 
     @Transactional
