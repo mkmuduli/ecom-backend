@@ -121,12 +121,8 @@
     {
       "label": "Server: API Gateway",
       "type": "process",
-      "command": "mvn",
-      "args": [
-        "-f",
-        "infra/ecom-api-gateway/pom.xml",
-        "spring-boot:run"
-      ],
+      "command": "bash",
+      "args": ["scripts/run-api-gateway.sh"],
       "options": {
         "cwd": "${workspaceFolder}"
       },
