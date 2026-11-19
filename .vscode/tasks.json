@@ -1,0 +1,125 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Infrastructure: Start Docker Compose",
+      "type": "process",
+      "command": "bash",
+      "args": ["scripts/start-infrastructure.sh"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Infrastructure: Follow Docker Logs",
+      "type": "process",
+      "command": "docker",
+      "args": ["compose", "logs", "--follow"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Server: Product",
+      "type": "process",
+      "command": "mvn",
+      "args": ["-f", "web-service/product/pom.xml", "spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Server: Inventory",
+      "type": "process",
+      "command": "mvn",
+      "args": ["-f", "web-service/inventory/pom.xml", "spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Server: Payment",
+      "type": "process",
+      "command": "mvn",
+      "args": ["-f", "web-service/payment/pom.xml", "spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Server: Order",
+      "type": "process",
+      "command": "mvn",
+      "args": ["-f", "web-service/order/pom.xml", "spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Server: API Gateway",
+      "type": "process",
+      "command": "mvn",
+      "args": ["-f", "infra/ecom-api-gateway/pom.xml", "spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
+      "label": "Servers: Start All",
+      "dependsOn": [
+        "Infrastructure: Follow Docker Logs",
+        "Server: Product",
+        "Server: Inventory",
+        "Server: Payment",
+        "Server: Order",
+        "Server: API Gateway"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Full Stack",
+      "dependsOn": [
+        "Infrastructure: Start Docker Compose",
+        "Servers: Start All"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}
