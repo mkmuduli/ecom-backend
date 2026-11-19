@@ -1,6 +1,7 @@
 package com.ecom.gateway.security;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +12,8 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter implements WebFilter {
@@ -48,30 +50,40 @@ public class JwtAuthenticationFilter implements WebFilter {
             return unauthorized(exchange);
         }
 
-        String token = authHeader.substring(7);
+        try {
+            String token = authHeader.substring(7);
+            if (!jwtService.isTokenValid(token)) {
+                return unauthorized(exchange);
+            }
 
-        if (!jwtService.isTokenValid(token)) {
+            String username = jwtService.extractUsername(token);
+            var authorities = jwtService.extractRoles(token).stream()
+                    .filter(role -> role.equals("USER") || role.equals("ADMIN"))
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .collect(Collectors.toSet());
+
+            if (username == null || username.isBlank() || authorities.isEmpty()) {
+                return unauthorized(exchange);
+            }
+
+            var authentication = new UsernamePasswordAuthenticationToken(
+                    username,
+                    null,
+                    authorities);
+
+            return chain.filter(exchange)
+                    .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
+        } catch (RuntimeException exception) {
             return unauthorized(exchange);
         }
-
-        String username = jwtService.extractUsername(token);
-
-        var authentication = new UsernamePasswordAuthenticationToken(
-                username,
-                null,
-                List.of(new SimpleGrantedAuthority("ROLE_USER")));
-
-        return chain.filter(exchange)
-                .contextWrite(
-                        ReactiveSecurityContextHolder
-                                .withAuthentication(authentication));
     }
 
     private Mono<Void> unauthorized(ServerWebExchange exchange) {
-
-        exchange.getResponse()
-                .setStatusCode(HttpStatus.UNAUTHORIZED);
-
-        return exchange.getResponse().setComplete();
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+        byte[] body = "{\"error\":\"Authentication required or token is invalid\"}"
+                .getBytes(StandardCharsets.UTF_8);
+        return exchange.getResponse().writeWith(Mono.just(exchange.getResponse()
+                .bufferFactory().wrap(body)));
     }
 }

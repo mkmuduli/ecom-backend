@@ -119,6 +119,22 @@
       }
     },
     {
+      "label": "Server: Auth",
+      "type": "process",
+      "command": "bash",
+      "args": ["scripts/run-auth.sh"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false
+      }
+    },
+    {
       "label": "Server: API Gateway",
       "type": "process",
       "command": "bash",
@@ -142,6 +158,7 @@
         "Server: Inventory",
         "Server: Payment",
         "Server: Order",
+        "Server: Auth",
         "Server: API Gateway"
       ],
       "dependsOrder": "parallel",
