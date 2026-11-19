@@ -1,3 +1,4 @@
 platform/*/target
 
 web-service/*/target
+infra/*/target
