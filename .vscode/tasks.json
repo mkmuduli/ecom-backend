@@ -5,8 +5,12 @@
       "label": "Infrastructure: Start Docker Compose",
       "type": "process",
       "command": "bash",
-      "args": ["scripts/start-infrastructure.sh"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "scripts/start-infrastructure.sh"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -18,9 +22,14 @@
     {
       "label": "Infrastructure: Follow Docker Logs",
       "type": "process",
-      "command": "docker",
-      "args": ["compose", "logs", "--follow"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "command": "docker-compose",
+      "args": [
+        "logs",
+        "--follow"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -33,8 +42,14 @@
       "label": "Server: Product",
       "type": "process",
       "command": "mvn",
-      "args": ["-f", "web-service/product/pom.xml", "spring-boot:run"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "-f",
+        "web-service/product/pom.xml",
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -47,8 +62,14 @@
       "label": "Server: Inventory",
       "type": "process",
       "command": "mvn",
-      "args": ["-f", "web-service/inventory/pom.xml", "spring-boot:run"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "-f",
+        "web-service/inventory/pom.xml",
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -61,8 +82,14 @@
       "label": "Server: Payment",
       "type": "process",
       "command": "mvn",
-      "args": ["-f", "web-service/payment/pom.xml", "spring-boot:run"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "-f",
+        "web-service/payment/pom.xml",
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -75,8 +102,14 @@
       "label": "Server: Order",
       "type": "process",
       "command": "mvn",
-      "args": ["-f", "web-service/order/pom.xml", "spring-boot:run"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "-f",
+        "web-service/order/pom.xml",
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -89,8 +122,14 @@
       "label": "Server: API Gateway",
       "type": "process",
       "command": "mvn",
-      "args": ["-f", "infra/ecom-api-gateway/pom.xml", "spring-boot:run"],
-      "options": { "cwd": "${workspaceFolder}" },
+      "args": [
+        "-f",
+        "infra/ecom-api-gateway/pom.xml",
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -110,6 +149,18 @@
         "Server: API Gateway"
       ],
       "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Servers: Stop All",
+      "type": "process",
+      "command": "bash",
+      "args": [
+        "scripts/stop-services.sh"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": []
     },
     {
