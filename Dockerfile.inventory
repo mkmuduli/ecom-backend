@@ -1,0 +1,9 @@
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY web-service/inventory/target/inventory-1.0.0-SNAPSHOT.jar app.jar
+
+EXPOSE 9002
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
