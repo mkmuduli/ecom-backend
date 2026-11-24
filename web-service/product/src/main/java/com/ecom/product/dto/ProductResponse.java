@@ -8,7 +8,6 @@ public record ProductResponse(
         Long id,
         String name,
         BigDecimal price,
-        Integer stock,
         Boolean active) {
 
     public static ProductResponse from(Product product) {
@@ -16,7 +15,6 @@ public record ProductResponse(
                 product.getId(),
                 product.getName(),
                 product.getPrice(),
-                product.getStock(),
                 product.getActive());
     }
 }

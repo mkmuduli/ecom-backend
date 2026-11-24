@@ -24,19 +24,15 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Integer stock;
-
-    @Column(nullable = false)
     private Boolean active = true;
 
     protected Product() {
     }
 
-    public Product(String name, BigDecimal price, Integer stock) {
+    public Product(String name, BigDecimal price) {
 
         this.price = price;
         this.name = name;
-        this.stock = stock;
         this.active = true;
 
     }
@@ -53,10 +49,6 @@ public class Product {
         return price;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
     public Boolean getActive() {
         return active;
     }
@@ -67,10 +59,6 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 
     public void setActive(Boolean active) {
