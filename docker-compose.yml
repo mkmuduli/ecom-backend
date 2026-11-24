@@ -7,7 +7,7 @@ services:
     mem_limit: 200m
 
     environment:
-      POSTGRES_DB: shop_db
+      POSTGRES_DB: test
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
 
@@ -19,7 +19,7 @@ services:
       - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d shop_db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d shop_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,11 +37,11 @@ services:
       - redis_data:/data
 
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
-  
+
   kafka:
     image: apache/kafka:4.1.1
     container_name: shop-kafka
