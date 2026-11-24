@@ -38,7 +38,12 @@ public class InventoryService {
                         throw new IllegalArgumentException(
                                         "productId and a non-negative availableQuantity are required");
                 }
-                return inventoryRepository.save(new Inventory(productId, availableQuantity));
+                // Create the row on first use; subsequent calls set available stock
+                // without disturbing quantities already reserved for orders.
+                inventoryRepository.insertIfAbsent(productId, availableQuantity);
+                return inventoryRepository.findByProductId(productId)
+                                .orElseThrow(() -> new IllegalStateException(
+                                                "Inventory insert did not create or find a row for product: " + productId));
         }
 
         @Transactional(readOnly = true)
