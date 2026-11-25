@@ -27,22 +27,22 @@ jobs:
         run: mvn package -DskipTests  
 
       - name: Build Product Image
-        run: docker build -f product.Dockerfile -t product-service:latest .
+        run: docker build -f Dockerfile.product -t product-service:latest .
 
       - name: Build Inventory Image
-        run: docker build -f inventory.Dockerfile -t inventory-service:latest .
+        run: docker build -f Dockerfile.inventory -t inventory-service:latest .
 
       - name: Build Order Image
-        run: docker build -f order.Dockerfile -t order-service:latest .
+        run: docker build -f Dockerfile.order -t order-service:latest .
 
       - name: Build Payment Image
-        run: docker build -f payment.Dockerfile -t payment-service:latest .
+        run: docker build -f Dockerfile.payment -t payment-service:latest .
 
       - name: Build Gateway Image
-        run: docker build -f gateway.Dockerfile -t gateway:latest .
+        run: docker build -f Dockerfile.gateway -t gateway:latest .
 
       - name: Build Auth Image
-        run: docker build -f auth.Dockerfile -t auth:latest .
+        run: docker build -f Dockerfile.auth -t auth:latest .
 
       - name: Login to GHCR
         uses: docker/login-action@v3
