@@ -26,6 +26,9 @@ jobs:
 
       - name: Maven Package
         run: mvn package -DskipTests
+      - name: Check built JARs
+        run: |
+          find . -name "*.jar" -type f
 
   docker:
     needs: test
