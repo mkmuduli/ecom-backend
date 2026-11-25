@@ -47,11 +47,11 @@ jobs:
       matrix:
         service:
           - product
-          # - inventory
-          # - order
-          # - payment
-          # - gateway
-          # - auth
+          - inventory
+          - order
+          - payment
+          - gateway
+          - auth
 
     steps:
       - name: Checkout code
