@@ -26,9 +26,18 @@ jobs:
 
       - name: Maven Package
         run: mvn package -DskipTests
+
       - name: Check built JARs
         run: |
           find . -name "*.jar" -type f
+      
+      - name: Upload JARs
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-jars
+          path: |
+            web-service/*/target/*.jar
+            infra/*/target/*.jar
 
   docker:
     needs: test
@@ -47,6 +56,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Download JARs
+        uses: actions/download-artifact@v4
+        with:
+          name: application-jars
 
       - name: Build Docker Image
         run: docker build -f Dockerfile.${{matrix.service}} -t ${{ matrix.service }}-service:latest .
