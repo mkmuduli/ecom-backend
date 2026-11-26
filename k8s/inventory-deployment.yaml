@@ -16,7 +16,7 @@ spec:
       containers:
         - name: inventory-service
           image: ghcr.io/mkmuduli/inventory-service:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9002
           env:

@@ -16,7 +16,7 @@ spec:
       containers:
         - name: order-service
           image: ghcr.io/mkmuduli/order-service:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9004
           env:

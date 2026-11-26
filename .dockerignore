@@ -1,0 +1,8 @@
+.git
+**/target/*
+!web-service/auth/target/*.jar
+!web-service/product/target/*.jar
+!web-service/inventory/target/*.jar
+!web-service/order/target/*.jar
+!web-service/payment/target/*.jar
+!infra/ecom-api-gateway/target/*.jar

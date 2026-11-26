@@ -16,7 +16,7 @@ spec:
       containers:
         - name: payment-service
           image: ghcr.io/mkmuduli/payment-service:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9003
           env:

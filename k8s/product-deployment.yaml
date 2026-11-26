@@ -19,7 +19,7 @@ spec:
       containers:
         - name: product-service
           image: ghcr.io/mkmuduli/product-service:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
 
           ports:
             - containerPort: 9001
