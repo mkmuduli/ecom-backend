@@ -1,0 +1,13 @@
+curl -X POST http://localhost:30951/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"manoj0","password":"123456789"}'
+
+
+  curl -X POST http://localhost:30951/auth/signup \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"manoj0","password":"123456789"}'
+
+
+  curl http://localhost:30951/api/v1/product \
+  -H "Authorization: Bearer $TOKEN"
+
