@@ -11,19 +11,18 @@ curl -X POST http://localhost:8080/auth/login \
   curl http://localhost:8080/api/v1/product \
   -H "Authorization: Bearer $TOKEN"
 
-
-curl -X POST http://localhost:8080/api/v1/product \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Desk Lamp","price":29.99}'
-
-
-  curl -X POST http://localhost:8080/api/v1/inventory \
-  -H "Content-Type: application/json" \
+  curl -X POST http://localhost:30951/api/v1/product \
+  -H 'Content-Type: application/json' \
   -H "Authorization: Bearer $TOKEN" \
-  -d '{"productId":1,"availableQuantity":50}'
+  -d '{"name":"Sample product","price":19.99}'
 
-
-  curl -X POST http://localhost:8080/api/v1/order \
-  -H "Content-Type: application/json" \
+  curl -X POST http://localhost:30951/api/v1/inventory \
+  -H 'Content-Type: application/json' \
   -H "Authorization: Bearer $TOKEN" \
-  -d '{"productId":1,"quantity":2}'
+  -d '{"productId":3,"availableQuantity":10}'
+
+
+curl -X POST http://localhost:30951/api/v1/order \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"productId":3,"quantity":1}'
