@@ -27,13 +27,28 @@ spec:
               value: postgres
 
             - name: SPRING_DATASOURCE_PASSWORD
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: ecom-secrets
+                  key: POSTGRES_PASSWORD
 
             - name: SPRING_DATA_REDIS_HOST
               value: redis
 
             - name: SPRING_DATA_REDIS_PORT
               value: "6379"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:9092
+          readinessProbe:
+            tcpSocket:
+              port: 9002
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 9002
+            initialDelaySeconds: 60
+            periodSeconds: 20
 
 ---
 apiVersion: v1
