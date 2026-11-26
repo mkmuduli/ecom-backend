@@ -9,6 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
 
   redis:
     image: redis:7-alpine
@@ -40,6 +41,8 @@ services:
       - "9001:9001"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecom_product_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
@@ -52,6 +55,8 @@ services:
       - "9002:9002"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecom_inventory_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
@@ -64,6 +69,8 @@ services:
       - "9004:9004"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecom_order_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
@@ -78,6 +85,8 @@ services:
       - "9003:9003"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecom_payment_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
@@ -92,6 +101,8 @@ services:
       - .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecom_auth_db
+      AUTH_DB_USERNAME: postgres
+      AUTH_DB_PASSWORD: postgres
 
   gateway:
     build:
